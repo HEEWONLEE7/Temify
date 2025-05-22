@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <style name="Theme.Temify" parent="android:Theme.Material.Light.NoActionBar" />
+<!-- res/values/themes.xml -->
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.Temify" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">#4CAF50</item>
+        <item name="colorPrimaryDark">#388E3C</item>
+        <item name="colorAccent">#FFC107</item>
+    </style>
 </resources>
