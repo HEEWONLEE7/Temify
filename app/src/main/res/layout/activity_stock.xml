@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="#FFFFFF"
+    android:padding="64dp">
+
+    <!-- 제목 -->
+    <TextView
+        android:id="@+id/stockTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="📊 현재 재고 현황"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:textColor="#222222"
+        android:layout_marginBottom="40dp" />
+
+    <!-- 수량 강조 -->
+    <TextView
+        android:id="@+id/stockText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="🔋 사용 가능한 보조배터리는 5개입니다."
+        android:textSize="28sp"
+        android:textColor="#4CAF50"
+        android:textStyle="bold"
+        android:textAlignment="center" />
+
+    <Button
+        android:id="@+id/btnBackToMain"
+        android:layout_width="600dp"
+        android:layout_height="wrap_content"
+        android:text="← 메인 화면으로 돌아가기"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#9E9E9E"
+        android:padding="16dp"
+        android:layout_marginTop="48dp"
+        android:textSize="16sp"
+        android:background="@drawable/rounded_button" />
+
+</LinearLayout>

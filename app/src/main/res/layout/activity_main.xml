@@ -1,29 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:padding="24dp">
+    android:background="#FAFAFA">
 
-    <Button
-        android:id="@+id/btnRent"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="대여"
-        android:layout_marginBottom="16dp"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:minHeight="1000dp"> <!-- Temi처럼 넉넉한 높이 확보 -->
 
-    <Button
-        android:id="@+id/btnReturn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="반납"
-        android:layout_marginBottom="16dp"/>
+        <!-- 가운데 정렬을 위한 컨테이너 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center"
+            android:paddingHorizontal="64dp"
+            android:paddingVertical="48dp">
 
-    <Button
-        android:id="@+id/btnStock"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="재고 확인"/>
-</LinearLayout>
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📚 Temify 대여 시스템"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                android:textColor="#222222"
+                android:layout_marginBottom="80dp"
+                android:textAlignment="center" />
+
+            <Button
+                android:id="@+id/btnRent"
+                android:layout_width="600dp"
+                android:layout_height="wrap_content"
+                android:text="🌺 대여하기"
+                android:layout_marginBottom="32dp"
+                android:backgroundTint="#4CAF50"
+                android:textColor="#FFFFFF"
+                android:padding="20dp"
+                android:textSize="20sp"
+                android:background="@drawable/rounded_button" />
+
+            <Button
+                android:id="@+id/btnReturn"
+                android:layout_width="600dp"
+                android:layout_height="wrap_content"
+                android:text="📦 반납하기"
+                android:layout_marginBottom="32dp"
+                android:backgroundTint="#2196F3"
+                android:textColor="#FFFFFF"
+                android:padding="20dp"
+                android:textSize="20sp"
+                android:background="@drawable/rounded_button" />
+
+            <Button
+                android:id="@+id/btnStock"
+                android:layout_width="600dp"
+                android:layout_height="wrap_content"
+                android:text="📊 재고 확인"
+                android:backgroundTint="#FF9800"
+                android:textColor="#FFFFFF"
+                android:padding="20dp"
+                android:textSize="20sp"
+                android:background="@drawable/rounded_button" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

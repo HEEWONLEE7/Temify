@@ -1,5 +1,6 @@
 package com.example.temify;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
@@ -13,21 +14,30 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);  // XML 화면을 연결하는 부분
+        setContentView(R.layout.activity_main);  // XML 화면 연결
 
-        // XML의 버튼과 연결
+        // XML 버튼과 자바 변수 연결
         btnRent = findViewById(R.id.btnRent);
         btnReturn = findViewById(R.id.btnReturn);
         btnStock = findViewById(R.id.btnStock);
 
-        // 버튼 클릭 시 메시지 표시
-        btnRent.setOnClickListener(v ->
-                Toast.makeText(this, "📦 대여 요청됨!", Toast.LENGTH_SHORT).show());
+        // 대여 버튼 → LoginActivity로 이동
+        btnRent.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+        });
 
-        btnReturn.setOnClickListener(v ->
-                Toast.makeText(this, "↩️ 반납 요청됨!", Toast.LENGTH_SHORT).show());
+        // 반납 버튼 → ReturnActivity로 이동
+        btnReturn.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, ReturnActivity.class);
+            startActivity(intent);
+        });
 
-        btnStock.setOnClickListener(v ->
-                Toast.makeText(this, "📊 재고 확인 중!", Toast.LENGTH_SHORT).show());
+        // 재고 확인 버튼 → Toast 메시지만 표시
+        btnStock.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, StockActivity.class);
+            startActivity(intent);
+        });
+
     }
 }

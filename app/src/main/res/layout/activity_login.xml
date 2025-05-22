@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="48dp"
+    android:background="#FFFFFF">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="🔐 로그인"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="24dp"
+        android:textColor="#333"/>
+
+    <EditText
+        android:id="@+id/editId"
+        android:layout_width="600dp"
+        android:layout_height="wrap_content"
+        android:hint="아이디 입력"
+        android:inputType="text"
+        android:padding="14dp"
+        android:background="@drawable/rounded_edit"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="center_horizontal" />
+
+    <EditText
+        android:id="@+id/editPw"
+        android:layout_width="600dp"
+        android:layout_height="wrap_content"
+        android:hint="비밀번호 입력"
+        android:inputType="textPassword"
+        android:padding="14dp"
+        android:background="@drawable/rounded_edit"
+        android:layout_marginBottom="30dp"
+        android:layout_gravity="center_horizontal" />
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="600dp"
+        android:layout_height="wrap_content"
+        android:text="로그인"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#3F51B5"
+        android:padding="18dp"
+        android:background="@drawable/rounded_button"
+        android:layout_gravity="center_horizontal"/>
+
+    <Button
+        android:id="@+id/btnBackToMain"
+        android:layout_width="600dp"
+        android:layout_height="wrap_content"
+        android:text="← 메인 화면으로 돌아가기"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#9E9E9E"
+        android:padding="16dp"
+        android:layout_marginTop="16dp"
+        android:textSize="16sp"
+        android:background="@drawable/rounded_button" />
+
+</LinearLayout>
+
+
+
+
