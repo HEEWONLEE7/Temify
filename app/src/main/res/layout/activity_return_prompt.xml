@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="#FAFAFA"
+    android:padding="64dp">
+
+    <!-- 사용자 정보 -->
+    <TextView
+        android:id="@+id/textUserInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="📌 5번 자리 - 3번 보조배터리"
+        android:textSize="30sp"
+        android:textColor="#333"
+        android:layout_marginBottom="24dp" />
+
+    <!-- 사용 시간 -->
+    <TextView
+        android:id="@+id/textUsageTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="🕒 사용 시간: 14:00 ~ 15:30"
+        android:textSize="28sp"
+        android:textColor="#555"
+        android:layout_marginBottom="48dp" />
+
+    <!-- 안내 문구 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="⏰ 반납 시간이 되었습니다.\n어떻게 하시겠습니까?"
+        android:textSize="36sp"
+        android:textAlignment="center"
+        android:textColor="#222"
+        android:layout_marginBottom="64dp"
+        android:textStyle="bold" />
+
+    <!-- 버튼: 반납 / 연장 -->
+    <Button
+        android:id="@+id/btnReturn"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:text="✅ 반납하기"
+        android:textSize="20sp"
+        android:backgroundTint="#4CAF50"
+        android:textColor="#FFF"
+        android:padding="20dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/rounded_button" />
+
+    <Button
+        android:id="@+id/btnExtend"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:text="🔁 연장하기"
+        android:textSize="20sp"
+        android:backgroundTint="#2196F3"
+        android:textColor="#FFF"
+        android:padding="20dp"
+        android:background="@drawable/rounded_button" />
+</LinearLayout>

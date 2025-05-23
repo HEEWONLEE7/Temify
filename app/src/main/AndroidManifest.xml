@@ -26,11 +26,16 @@
             </intent-filter>
         </activity>
 
-        <!-- LoginActivity (대여 버튼 눌렀을 때 이동) -->
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".ReturnActivity" />
-        <activity android:name=".StockActivity" />
-
+        <activity android:name=".ExtendRentalActivity$LoginActivity" />
+        <activity android:name=".ExtendSuccessActivity$ReturnActivity" />
+        <activity android:name=".GlobalData$StockActivity" />
+        <activity android:name=".MovingToUserActivity" />
+        <activity android:name=".UserAuthActivity" />
+        <activity android:name=".RentalCompleteActivity" />
+        <activity android:name=".ReturnPromptActivity" />
+        <activity android:name=".ExtendRentalActivity" />
+        <activity android:name=".ExtendSuccessActivity" />
+        <activity android:name=".ReturnCompleteActivity" />
 
 
     </application>

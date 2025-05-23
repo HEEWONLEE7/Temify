@@ -3,7 +3,6 @@ package com.example.temify;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,19 +22,19 @@ public class MainActivity extends AppCompatActivity {
 
         // 대여 버튼 → LoginActivity로 이동
         btnRent.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            Intent intent = new Intent(MainActivity.this, ExtendRentalActivity.LoginActivity.class);
             startActivity(intent);
         });
 
         // 반납 버튼 → ReturnActivity로 이동
         btnReturn.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, ReturnActivity.class);
+            Intent intent = new Intent(MainActivity.this, ExtendSuccessActivity.ReturnActivity.class);
             startActivity(intent);
         });
 
         // 재고 확인 버튼 → Toast 메시지만 표시
         btnStock.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, StockActivity.class);
+            Intent intent = new Intent(MainActivity.this, GlobalData.StockActivity.class);
             startActivity(intent);
         });
 

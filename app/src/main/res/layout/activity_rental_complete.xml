@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="#FAFAFA"
+    android:padding="64dp">
+
+    <TextView
+        android:id="@+id/textComplete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="🎉 보조배터리가 대여되었습니다!"
+        android:textSize="38sp"
+        android:textStyle="bold"
+        android:textColor="#222"
+        android:layout_marginBottom="48dp"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/textReturnTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="반납 예정 시간: 오후 3:30"
+        android:textSize="28sp"
+        android:textColor="#555"
+        android:layout_marginBottom="64dp"
+        android:textAlignment="center" />
+
+    <Button
+        android:id="@+id/btnGoHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="메인으로 돌아가기"
+        android:textSize="20sp"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#4CAF50"
+        android:paddingLeft="48dp"
+        android:paddingRight="48dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:background="@drawable/rounded_button" />
+</LinearLayout>

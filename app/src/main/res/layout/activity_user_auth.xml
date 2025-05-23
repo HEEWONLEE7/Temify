@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="#FAFAFA"
+    android:padding="64dp">
+
+    <!-- 자리 정보 표시 -->
+    <TextView
+        android:id="@+id/textSeatInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="🔔 5번 자리 보조배터리 대여 인증"
+        android:textSize="42sp"
+        android:textStyle="bold"
+        android:textColor="#222"
+        android:layout_marginBottom="48dp"
+        android:textAlignment="center" />
+
+    <!-- 비밀번호 안내 텍스트 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="🔐 비밀번호 인증"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        android:textColor="#333"
+        android:layout_marginBottom="48dp"
+        android:textAlignment="center" />
+
+    <!-- 비밀번호 입력 -->
+    <EditText
+        android:id="@+id/editPin"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:hint="비밀번호 4자리"
+        android:inputType="numberPassword"
+        android:maxLength="4"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:background="@drawable/rounded_input"
+        android:padding="20dp"
+        android:layout_marginBottom="48dp" />
+
+    <!-- 인증 버튼 -->
+    <Button
+        android:id="@+id/btnAuth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="확인"
+        android:textSize="22sp"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#4CAF50"
+        android:paddingLeft="48dp"
+        android:paddingRight="48dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:background="@drawable/rounded_button" />
+</LinearLayout>

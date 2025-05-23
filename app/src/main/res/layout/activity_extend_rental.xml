@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="#FAFAFA"
+    android:padding="64dp">
+
+    <!-- 사용자 정보 -->
+    <TextView
+        android:id="@+id/textUserInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="📌 자리 - 배터리 정보"
+        android:textSize="30sp"
+        android:layout_marginBottom="16dp" />
+
+    <!-- 사용 시간 -->
+    <TextView
+        android:id="@+id/textUsageTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="🕒 현재 사용 시간"
+        android:textSize="28sp"
+        android:layout_marginBottom="48dp" />
+
+    <!-- 안내 문구 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="⏱️ 얼마나 연장하시겠습니까?"
+        android:textSize="34sp"
+        android:textColor="#222"
+        android:layout_marginBottom="32dp"
+        android:textAlignment="center" />
+
+    <!-- 선택 버튼들 -->
+    <Button
+        android:id="@+id/btn30min"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:text="+ 30분"
+        android:textSize="20sp"
+        android:backgroundTint="#FFC107"
+        android:textColor="#FFF"
+        android:padding="20dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/rounded_button" />
+
+    <Button
+        android:id="@+id/btn60min"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:text="+ 1시간"
+        android:textSize="20sp"
+        android:backgroundTint="#03A9F4"
+        android:textColor="#FFF"
+        android:padding="20dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/rounded_button" />
+
+    <Button
+        android:id="@+id/btn90min"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:text="+ 1시간 30분"
+        android:textSize="20sp"
+        android:backgroundTint="#8BC34A"
+        android:textColor="#FFF"
+        android:padding="20dp"
+        android:layout_marginBottom="48dp"
+        android:background="@drawable/rounded_button" />
+
+
+</LinearLayout>
