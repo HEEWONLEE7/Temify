@@ -15,7 +15,7 @@
 
         <!-- 앱 시작화면 -->
         <activity
-            android:name=".ReturnPromptActivity"
+            android:name=".UserAuthActivity"
             android:exported="true"
             android:theme="@style/Theme.Temify">
             <intent-filter>
@@ -32,7 +32,7 @@
         <activity android:name=".ReturnActivity" />
         <activity android:name=".StockActivity" />
         <activity android:name=".MovingToUserActivity" />
-        <activity android:name=".UserAuthActivity" />
+        <activity android:name=".ReturnPromptActivity" />
         <activity android:name=".RentalCompleteActivity" />
         <activity android:name=".ReturnCompleteActivity" />
 

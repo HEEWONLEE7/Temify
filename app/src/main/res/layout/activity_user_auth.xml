@@ -23,7 +23,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="🔐 비밀번호 인증"
+        android:text="🔐 비밀번호를 입력하세요"
         android:textSize="36sp"
         android:textStyle="bold"
         android:textColor="#333"

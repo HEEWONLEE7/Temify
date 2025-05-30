@@ -7,27 +7,41 @@
     android:background="#FAFAFA"
     android:padding="64dp">
 
+    <!-- 보조배터리 안내 -->
     <TextView
-        android:id="@+id/textComplete"
+        android:id="@+id/textBatteryInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="🎉 보조배터리가 대여되었습니다!"
-        android:textSize="38sp"
+        android:text="🔋 3번 보조배터리를 가져가세요!"
+        android:textSize="34sp"
         android:textStyle="bold"
         android:textColor="#222"
-        android:layout_marginBottom="48dp"
+        android:layout_marginBottom="32dp"
+        android:textAlignment="center" />
+
+    <!-- 사용 시간 -->
+    <TextView
+        android:id="@+id/textUsageTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="🕒 사용 시작 시간: 14:00"
+        android:textSize="26sp"
+        android:textColor="#444"
+        android:layout_marginBottom="16dp"
         android:textAlignment="center" />
 
     <TextView
         android:id="@+id/textReturnTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="반납 예정 시간: 오후 3:30"
-        android:textSize="28sp"
-        android:textColor="#555"
-        android:layout_marginBottom="64dp"
+        android:text="📅 반납 예정 시간: 15:30"
+        android:textSize="26sp"
+        android:textColor="#444"
+        android:layout_marginBottom="48dp"
         android:textAlignment="center" />
 
+
+    <!-- 메인으로 -->
     <Button
         android:id="@+id/btnGoHome"
         android:layout_width="wrap_content"

@@ -7,41 +7,38 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
-
 public class RentalCompleteActivity extends AppCompatActivity {
 
-    TextView textComplete, textReturnTime;
-    Button btnGoHome;
+    TextView textComplete, textUserInfo, textStartTime, textEndTime;
+    Button btnBackToMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rental_complete);
 
-        textComplete = findViewById(R.id.textComplete);
-        textReturnTime = findViewById(R.id.textReturnTime);
-        btnGoHome = findViewById(R.id.btnGoHome);
+        // XML 요소 연결
+        textUserInfo = findViewById(R.id.textBatteryInfo); // ✅ 수정됨
+        textStartTime = findViewById(R.id.textUsageTime);
+        textEndTime = findViewById(R.id.textReturnTime);
+        btnBackToMain = findViewById(R.id.btnGoHome); // ✅ XML에 맞게 버튼 ID도 확인
+        // textComplete는 현재 XML에 없으므로 주석 처리 또는 제거
+        // textComplete = findViewById(R.id.textComplete);
 
-        // 기본 반납 시각: 17:00
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 17);
-        calendar.set(Calendar.MINUTE, 0);
+        // 전달받은 데이터
+        String batteryNumber = getIntent().getStringExtra("batteryNumber");
+        String startTime = getIntent().getStringExtra("startTime");
+        String endTime = getIntent().getStringExtra("endTime");
 
-        // 전달받은 연장 시간 (분 단위) 적용
-        int extendedMinutes = getIntent().getIntExtra("extendedMinutes", 0);
-        calendar.add(Calendar.MINUTE, extendedMinutes);
+        if (batteryNumber == null) batteryNumber = "3번 보조배터리";
+        if (startTime == null) startTime = "14:00";
+        if (endTime == null) endTime = "15:30";
 
-        // 시간 포맷 지정
-        SimpleDateFormat sdf = new SimpleDateFormat("a h:mm", Locale.KOREA);
-        String returnTime = sdf.format(calendar.getTime());
+        textUserInfo.setText("🔋 " + batteryNumber + "를 가져가세요!");
+        textStartTime.setText("🕒 사용 시작 시간: " + startTime);
+        textEndTime.setText("📅 반납 예정 시간: " + endTime);
 
-        // 화면에 출력
-        textReturnTime.setText("반납 예정 시간: " + returnTime);
-
-        btnGoHome.setOnClickListener(v -> {
+        btnBackToMain.setOnClickListener(v -> {
             Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
