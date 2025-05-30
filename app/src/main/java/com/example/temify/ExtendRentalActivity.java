@@ -7,6 +7,11 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
 public class ExtendRentalActivity extends AppCompatActivity {
 
     TextView textUserInfo, textUsageTime;
@@ -31,23 +36,31 @@ public class ExtendRentalActivity extends AppCompatActivity {
         textUserInfo.setText("📌 " + seat + " - " + battery);
         textUsageTime.setText("🕒 현재 사용 시간: " + usage);
 
-        // 버튼 클릭 시 바로 확정 및 화면 이동
-        btn30min.setOnClickListener(v -> {
-            goToSuccess("30분");
-        });
-
-        btn60min.setOnClickListener(v -> {
-            goToSuccess("1시간");
-        });
-
-        btn90min.setOnClickListener(v -> {
-            goToSuccess("1시간 30분");
-        });
+        btn30min.setOnClickListener(v -> goToSuccess("30분", 30));
+        btn60min.setOnClickListener(v -> goToSuccess("1시간", 60));
+        btn90min.setOnClickListener(v -> goToSuccess("1시간 30분", 90));
     }
 
-    private void goToSuccess(String time) {
+    private void goToSuccess(String timeLabel, int minutesToAdd) {
+        String startTime = GlobalData.START_TIME;
+        String endTime = GlobalData.END_TIME;
+
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        String newEndTime = endTime;
+
+        try {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(sdf.parse(endTime)); // 기존 종료 시간
+            cal.add(Calendar.MINUTE, minutesToAdd); // 연장
+            newEndTime = sdf.format(cal.getTime()); // 새 종료 시간
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         Intent intent = new Intent(this, ExtendSuccessActivity.class);
-        intent.putExtra("extendedTime", time);
+        intent.putExtra("extendedTime", timeLabel);
+        intent.putExtra("startTime", startTime);
+        intent.putExtra("endTime", newEndTime);
         startActivity(intent);
     }
 }

@@ -7,6 +7,10 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
 public class RentalCompleteActivity extends AppCompatActivity {
 
     TextView textComplete, textReturnTime;
@@ -21,8 +25,20 @@ public class RentalCompleteActivity extends AppCompatActivity {
         textReturnTime = findViewById(R.id.textReturnTime);
         btnGoHome = findViewById(R.id.btnGoHome);
 
-        // 예시로 반납 예정 시간 하드코딩 (실제로는 intent로 전달)
-        String returnTime = "오후 3:30";
+        // 기본 반납 시각: 17:00
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 17);
+        calendar.set(Calendar.MINUTE, 0);
+
+        // 전달받은 연장 시간 (분 단위) 적용
+        int extendedMinutes = getIntent().getIntExtra("extendedMinutes", 0);
+        calendar.add(Calendar.MINUTE, extendedMinutes);
+
+        // 시간 포맷 지정
+        SimpleDateFormat sdf = new SimpleDateFormat("a h:mm", Locale.KOREA);
+        String returnTime = sdf.format(calendar.getTime());
+
+        // 화면에 출력
         textReturnTime.setText("반납 예정 시간: " + returnTime);
 
         btnGoHome.setOnClickListener(v -> {
