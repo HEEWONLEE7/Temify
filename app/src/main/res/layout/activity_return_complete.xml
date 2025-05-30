@@ -11,7 +11,7 @@
         android:id="@+id/textComplete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="✅ 보조배터리가 반납되었습니다!"
+        android:text="✅ 보조배터리를 반납해주세요!"
         android:textSize="36sp"
         android:textStyle="bold"
         android:textColor="#222"
@@ -35,6 +35,16 @@
         android:textSize="26sp"
         android:textColor="#555"
         android:layout_marginBottom="64dp" />
+
+    <TextView
+        android:id="@+id/textReturnTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="📅 반납 시간: 오후 3:30"
+        android:textSize="26sp"
+        android:textColor="#555"
+        android:layout_marginBottom="48dp"
+        android:textAlignment="center" />
 
     <Button
         android:id="@+id/btnBackToMain"
