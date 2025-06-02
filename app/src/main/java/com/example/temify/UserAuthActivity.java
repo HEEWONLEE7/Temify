@@ -25,7 +25,7 @@ public class UserAuthActivity extends AppCompatActivity {
         textSeatInfo = findViewById(R.id.textSeatInfo);
 
         // ✅ GlobalData에서 동적 정보 사용
-        textSeatInfo.setText("🔔 " + GlobalData.seatNumber + " 대여 인증");
+        textSeatInfo.setText("🔔 " + GlobalData.seatNumber + "번 자리 대여 인증");
 
         btnAuth.setOnClickListener(v -> {
             String input = editPin.getText().toString().trim();

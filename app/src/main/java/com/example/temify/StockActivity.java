@@ -52,12 +52,12 @@ public class StockActivity extends AppCompatActivity {
                 for (DataSnapshot battery : snapshot.getChildren()) {
                     String batteryId = battery.getKey();  // ex: "Batt2"
                     String isBattery = String.valueOf(battery.child("isBattery").getValue());
-                    String levelStr = String.valueOf(battery.child("BatLevel1").getValue());
+                    String levelStr = String.valueOf(battery.child("BatLevel").getValue());
 
                     try {
                         double level = Double.parseDouble(levelStr);
 
-                        if ("true".equalsIgnoreCase(isBattery) && level >= 0.0) {
+                        if ("true".equalsIgnoreCase(isBattery) && level >= 101500.0) {
                             availableCount++;
                             availableBatteries.add(batteryId);
                         }

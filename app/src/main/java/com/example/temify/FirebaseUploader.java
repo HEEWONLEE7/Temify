@@ -23,8 +23,8 @@ public class FirebaseUploader {
         DatabaseReference ref = FirebaseDatabase.getInstance()
                 .getReference("reservation");
 
-        ref.child("seat").setValue(GlobalData.seatNumber != null ? GlobalData.seatNumber : "5번 자리");
-        ref.child("battery").setValue(GlobalData.batteryNumber != null ? GlobalData.batteryNumber : "3번 보조배터리");
+        ref.child("seat").setValue(GlobalData.seatNumber != null ? GlobalData.seatNumber : "5");
+        ref.child("battery").setValue(GlobalData.batteryNumber != null ? GlobalData.batteryNumber : "3");
         ref.child("start_time").setValue(now);
         ref.child("end_time").setValue(end);
         ref.child("password").setValue(GlobalData.password != null ? GlobalData.password : "1234");

@@ -33,7 +33,7 @@ public class ExtendRentalActivity extends AppCompatActivity {
         String battery = GlobalData.batteryNumber;
         String usage = GlobalData.startTime + " ~ " + GlobalData.endTime;
 
-        textUserInfo.setText("📌 " + seat + " - " + battery);
+        textUserInfo.setText("📌 " + seat + "번 자리 - " + battery + "번 보조배터리");
         textUsageTime.setText("🕒 현재 사용 시간: " + usage);
 
         btn30min.setOnClickListener(v -> extendTime("30분", 30));

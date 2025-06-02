@@ -62,7 +62,7 @@ public class ReturnPromptActivity extends AppCompatActivity {
                     GlobalData.endTime = end;
 
                     // ✅ UI 표시
-                    textUserInfo.setText("📌 " + seat + " - " + battery);
+                    textUserInfo.setText("📌 " + seat + "번 자리 - " + battery + "번 보조배터리");
                     textUsageTime.setText("🕒 사용 시간: " + start + " ~ " + end);
                 } else {
                     Toast.makeText(ReturnPromptActivity.this, "예약 정보가 없습니다.", Toast.LENGTH_SHORT).show();

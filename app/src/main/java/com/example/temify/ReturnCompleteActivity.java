@@ -35,11 +35,11 @@ public class ReturnCompleteActivity extends AppCompatActivity {
         String endTime = GlobalData.endTime != null ? GlobalData.endTime : "15:30";
 
         // ✅ 현재 시간 = 반납 시간
-        String returnTime = new SimpleDateFormat("a h:mm", Locale.KOREA).format(new Date());
+        String returnTime = new SimpleDateFormat("HH:mm", Locale.KOREA).format(new Date());
 
         // ✅ UI 출력
         textComplete.setText("🎉 보조배터리가 반납되었습니다!");
-        textUserInfo.setText("🔋 " + batteryNumber + " 반납 완료");
+        textUserInfo.setText("🔋 " + batteryNumber + "번 보조배터리 반납 완료");
         textUsageTime.setText("🕒 사용 시간: " + startTime + " ~ " + endTime);
         textReturnTime.setText("📅 반납 시간: " + returnTime);
 

@@ -29,7 +29,7 @@ public class RentalCompleteActivity extends AppCompatActivity {
         String endTime = GlobalData.endTime != null ? GlobalData.endTime : "15:30";
 
         // ✅ 화면 출력
-        textUserInfo.setText("🔋 " + batteryNumber + "를 가져가세요!");
+        textUserInfo.setText("🔋 " + batteryNumber + "번 보조배터리를 가져가세요!");
         textStartTime.setText("🕒 사용 시작 시간: " + startTime);
         textEndTime.setText("📅 반납 예정 시간: " + endTime);
 
