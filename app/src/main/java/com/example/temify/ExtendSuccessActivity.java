@@ -21,9 +21,10 @@ public class ExtendSuccessActivity extends AppCompatActivity {
         textUsageInfo = findViewById(R.id.textUsageInfo);
         btnBackToMain = findViewById(R.id.btnBackToMain);
 
-        String extendedTime = getIntent().getStringExtra("extendedTime");
-        String originalStart = getIntent().getStringExtra("startTime");
-        String newEnd = getIntent().getStringExtra("endTime");
+        // ✅ GlobalData로부터 값 가져오기
+        String extendedTime = GlobalData.extendedTime;
+        String originalStart = GlobalData.startTime;
+        String newEnd = GlobalData.endTime;
 
         if (extendedTime == null) extendedTime = "알 수 없음";
         if (originalStart == null) originalStart = "??:??";
@@ -32,7 +33,6 @@ public class ExtendSuccessActivity extends AppCompatActivity {
         textSuccess.setText("✅ 대여가 " + extendedTime + " 연장되었습니다!");
         textUsageInfo.setText("🕒 사용 시간: " + originalStart + " ~ " + newEnd +
                 "\n📈 최종 반납 시간: " + newEnd);
-
 
         btnBackToMain.setOnClickListener(v -> {
             Intent intent = new Intent(this, MainActivity.class);

@@ -24,8 +24,8 @@ public class UserAuthActivity extends AppCompatActivity {
         btnAuth = findViewById(R.id.btnAuth);
         textSeatInfo = findViewById(R.id.textSeatInfo);
 
-        // 🔁 GlobalData에서 자리 정보 사용
-        textSeatInfo.setText("🔔 " + GlobalData.SEAT_NUMBER + " 대여 인증");
+        // ✅ GlobalData에서 동적 정보 사용
+        textSeatInfo.setText("🔔 " + GlobalData.seatNumber + " 대여 인증");
 
         btnAuth.setOnClickListener(v -> {
             String input = editPin.getText().toString().trim();
@@ -35,7 +35,8 @@ public class UserAuthActivity extends AppCompatActivity {
                 return;
             }
 
-            if (input.equals(GlobalData.PASSWORD)) {
+            // ✅ Firebase에서 받아온 동적 비밀번호와 비교
+            if (input.equals(GlobalData.password)) {
                 Toast.makeText(this, "인증 성공!", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(this, RentalCompleteActivity.class));
             } else {

@@ -67,6 +67,15 @@
                 android:textSize="20sp"
                 android:background="@drawable/rounded_button"
                 android:contentDescription="재고 확인 버튼" />
+
+            <Button
+                android:id="@+id/btnInitUpload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="서버 초기화"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center_horizontal" />
+
         </LinearLayout>
     </FrameLayout>
 </ScrollView>

@@ -13,7 +13,7 @@ import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener;
 public class MovingToUserActivity extends AppCompatActivity {
 
     private Robot robot;
-    private String targetLocation = "5번 자리";
+    private String targetLocation = "5번 자리";  // Temi에 저장된 위치 이름
     private TextView textMoving;
 
     @Override
@@ -24,10 +24,14 @@ public class MovingToUserActivity extends AppCompatActivity {
         textMoving = findViewById(R.id.textMoving);
         robot = Robot.getInstance();
 
+        // ✅ GlobalData에 좌석 정보 저장
+        GlobalData.seatNumber = targetLocation;
+
+        // 이동 안내 텍스트 설정
         textMoving.setText("🤖 Temi가 " + targetLocation + "으로 이동 중입니다...");
         robot.goTo(targetLocation);
 
-        // ✅ 도착 상태 리스너 등록 (SDK 1.135.1 기준)
+        // ✅ Temi 이동 상태 리스너
         robot.addOnGoToLocationStatusChangedListener(new OnGoToLocationStatusChangedListener() {
             @Override
             public void onGoToLocationStatusChanged(String location, String status, int id, String description) {
@@ -55,8 +59,8 @@ public class MovingToUserActivity extends AppCompatActivity {
     }
 
     private void moveToNextActivity() {
+        // 다음 인증 액티비티로 이동하며 GlobalData 사용
         Intent intent = new Intent(MovingToUserActivity.this, UserAuthActivity.class);
-        intent.putExtra("seatNumber", targetLocation);
         startActivity(intent);
         finish();
     }

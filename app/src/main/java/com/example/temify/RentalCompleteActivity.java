@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class RentalCompleteActivity extends AppCompatActivity {
 
-    TextView textComplete, textUserInfo, textStartTime, textEndTime;
+    TextView textUserInfo, textStartTime, textEndTime;
     Button btnBackToMain;
 
     @Override
@@ -18,22 +18,17 @@ public class RentalCompleteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_rental_complete);
 
         // XML 요소 연결
-        textUserInfo = findViewById(R.id.textBatteryInfo); // ✅ 수정됨
+        textUserInfo = findViewById(R.id.textBatteryInfo);
         textStartTime = findViewById(R.id.textUsageTime);
         textEndTime = findViewById(R.id.textReturnTime);
-        btnBackToMain = findViewById(R.id.btnGoHome); // ✅ XML에 맞게 버튼 ID도 확인
-        // textComplete는 현재 XML에 없으므로 주석 처리 또는 제거
-        // textComplete = findViewById(R.id.textComplete);
+        btnBackToMain = findViewById(R.id.btnGoHome);
 
-        // 전달받은 데이터
-        String batteryNumber = getIntent().getStringExtra("batteryNumber");
-        String startTime = getIntent().getStringExtra("startTime");
-        String endTime = getIntent().getStringExtra("endTime");
+        // ✅ GlobalData에서 값 읽어오기
+        String batteryNumber = GlobalData.batteryNumber != null ? GlobalData.batteryNumber : "3번 보조배터리";
+        String startTime = GlobalData.startTime != null ? GlobalData.startTime : "14:00";
+        String endTime = GlobalData.endTime != null ? GlobalData.endTime : "15:30";
 
-        if (batteryNumber == null) batteryNumber = "3번 보조배터리";
-        if (startTime == null) startTime = "14:00";
-        if (endTime == null) endTime = "15:30";
-
+        // ✅ 화면 출력
         textUserInfo.setText("🔋 " + batteryNumber + "를 가져가세요!");
         textStartTime.setText("🕒 사용 시작 시간: " + startTime);
         textEndTime.setText("📅 반납 예정 시간: " + endTime);

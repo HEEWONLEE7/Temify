@@ -25,30 +25,25 @@ public class ReturnCompleteActivity extends AppCompatActivity {
         textComplete = findViewById(R.id.textComplete);
         textUserInfo = findViewById(R.id.textUserInfo);
         textUsageTime = findViewById(R.id.textUsageTime);
-        textReturnTime = findViewById(R.id.textReturnTime);  // ← 새로 추가된 텍스트뷰
+        textReturnTime = findViewById(R.id.textReturnTime);
         btnBackToMain = findViewById(R.id.btnBackToMain);
 
-        // 전달받은 데이터
-        String seatNumber = getIntent().getStringExtra("seatNumber");
-        String batteryNumber = getIntent().getStringExtra("batteryNumber");
-        String startTime = getIntent().getStringExtra("startTime");
-        String endTime = getIntent().getStringExtra("endTime");
+        // ✅ GlobalData에서 데이터 읽기
+        String seatNumber = GlobalData.seatNumber != null ? GlobalData.seatNumber : "5번 자리";
+        String batteryNumber = GlobalData.batteryNumber != null ? GlobalData.batteryNumber : "3번 보조배터리";
+        String startTime = GlobalData.startTime != null ? GlobalData.startTime : "14:00";
+        String endTime = GlobalData.endTime != null ? GlobalData.endTime : "15:30";
 
-        // 기본값 설정
-        if (seatNumber == null) seatNumber = "5번 자리";
-        if (batteryNumber == null) batteryNumber = "3번 보조배터리";
-        if (startTime == null) startTime = "14:00";
-        if (endTime == null) endTime = "15:30";
-
-        // 현재 시간을 반납 완료 시각으로 사용
+        // ✅ 현재 시간 = 반납 시간
         String returnTime = new SimpleDateFormat("a h:mm", Locale.KOREA).format(new Date());
 
-        // 화면 출력
+        // ✅ UI 출력
         textComplete.setText("🎉 보조배터리가 반납되었습니다!");
         textUserInfo.setText("🔋 " + batteryNumber + " 반납 완료");
         textUsageTime.setText("🕒 사용 시간: " + startTime + " ~ " + endTime);
         textReturnTime.setText("📅 반납 시간: " + returnTime);
 
+        // ✅ 메인으로 복귀
         btnBackToMain.setOnClickListener(v -> {
             Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

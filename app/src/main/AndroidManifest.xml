@@ -15,7 +15,7 @@
 
         <!-- 앱 시작화면 -->
         <activity
-            android:name=".MovingToUserActivity"
+            android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.Temify">
             <intent-filter>
@@ -25,7 +25,7 @@
         </activity>
 
         <!-- 주요 화면들 -->
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MovingToUserActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".ExtendRentalActivity" />
         <activity android:name=".ExtendSuccessActivity" />
