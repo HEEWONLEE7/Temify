@@ -1,16 +1,21 @@
 pluginManagement {
     repositories {
-        gradlePluginPortal()
         google()
-        mavenCentral() // ✅ 추가!
+        mavenCentral()
+        gradlePluginPortal()
     }
 }
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
-        mavenCentral() // ✅ Temi SDK 사용 위해 필요
+        mavenCentral()
+
+        // ✅ Temi SDK 저장소 추가
+        maven { url "https://s3.amazonaws.com/sdk.temi.com/repository" }
     }
 }
+
 rootProject.name = "Temify"
 include ':app'
