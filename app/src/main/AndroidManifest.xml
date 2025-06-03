@@ -2,6 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.temify">
 
+    <uses-permission android:name="com.robotemi.permission.USE_ROBOT" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -25,16 +27,20 @@
         </activity>
 
         <!-- 주요 화면들 -->
-        <activity android:name=".MovingToUserActivity" />
+        <activity android:name=".ReturnActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".ExtendRentalActivity" />
         <activity android:name=".ExtendSuccessActivity" />
-        <activity android:name=".ReturnActivity" />
+        <activity android:name=".MovingToUserActivity" />
         <activity android:name=".StockActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".UserAuthActivity" />
         <activity android:name=".RentalCompleteActivity" />
         <activity android:name=".ReturnCompleteActivity" />
+
+        <meta-data
+            android:name="com.robotemi.sdk.metadata.SKILL"
+            android:value="Temify" />
 
     </application>
 </manifest>

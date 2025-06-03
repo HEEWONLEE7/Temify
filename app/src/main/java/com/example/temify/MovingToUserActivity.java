@@ -2,6 +2,8 @@ package com.example.temify;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -9,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener;
+
+import java.util.List;
 
 public class MovingToUserActivity extends AppCompatActivity {
 
@@ -27,11 +31,7 @@ public class MovingToUserActivity extends AppCompatActivity {
         // ✅ GlobalData에 좌석 정보 저장
         GlobalData.seatNumber = targetLocation;
 
-        // 이동 안내 텍스트 설정
-        textMoving.setText("🤖 Temi가 " + targetLocation + "으로 이동 중입니다...");
-        robot.goTo(targetLocation);
-
-        // ✅ Temi 이동 상태 리스너
+        // ✅ Temi 이동 상태 리스너 등록
         robot.addOnGoToLocationStatusChangedListener(new OnGoToLocationStatusChangedListener() {
             @Override
             public void onGoToLocationStatusChanged(String location, String status, int id, String description) {
@@ -58,8 +58,29 @@ public class MovingToUserActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        // ✅ Temi SDK 안정화 시간 확보: 1초 지연 후 위치 확인 및 이동
+        new Handler().postDelayed(() -> {
+            List<String> locations = robot.getLocations();
+            Log.d("TemiDebug", "지연 후 Temi 위치 목록: " + locations);
+
+            if (!locations.contains(targetLocation)) {
+                Toast.makeText(this, "Temi에 '" + targetLocation + "' 위치가 없습니다.", Toast.LENGTH_LONG).show();
+                textMoving.setText("🚫 Temi 위치 데이터 없음: " + targetLocation);
+                return;
+            }
+
+            // 위치 존재할 경우 Temi 이동 명령
+            textMoving.setText("🤖 Temi가 " + targetLocation + "으로 이동 중입니다...");
+            robot.goTo(targetLocation);
+
+        }, 1000); // 1초 지연
+    }
+
     private void moveToNextActivity() {
-        // 다음 인증 액티비티로 이동하며 GlobalData 사용
         Intent intent = new Intent(MovingToUserActivity.this, UserAuthActivity.class);
         startActivity(intent);
         finish();
