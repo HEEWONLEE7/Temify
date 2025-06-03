@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public class FirebaseUploader {
+
     public static void uploadInitialData() {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
@@ -23,10 +24,10 @@ public class FirebaseUploader {
         DatabaseReference ref = FirebaseDatabase.getInstance()
                 .getReference("reservation");
 
-        ref.child("seat").setValue(GlobalData.seatNumber != null ? GlobalData.seatNumber : "5");
         ref.child("battery").setValue(GlobalData.batteryNumber != null ? GlobalData.batteryNumber : "3");
         ref.child("start_time").setValue(now);
         ref.child("end_time").setValue(end);
         ref.child("password").setValue(GlobalData.password != null ? GlobalData.password : "1234");
+        ref.child("open").setValue(false);  // 초기에는 닫힘 상태
     }
 }

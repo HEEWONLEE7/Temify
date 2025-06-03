@@ -17,7 +17,7 @@
 
         <!-- 앱 시작화면 -->
         <activity
-            android:name=".ReturnPromptActivity"
+            android:name=".MovingToUserActivity"
             android:exported="true"
             android:theme="@style/Theme.Temify">
             <intent-filter>
@@ -31,9 +31,9 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".ExtendRentalActivity" />
         <activity android:name=".ExtendSuccessActivity" />
-        <activity android:name=".MovingToUserActivity" />
-        <activity android:name=".StockActivity" />
         <activity android:name=".MainActivity" />
+        <activity android:name=".StockActivity" />
+        <activity android:name=".ReturnPromptActivity" />
         <activity android:name=".UserAuthActivity" />
         <activity android:name=".RentalCompleteActivity" />
         <activity android:name=".ReturnCompleteActivity" />

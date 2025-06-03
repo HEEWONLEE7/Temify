@@ -9,6 +9,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class UserAuthActivity extends AppCompatActivity {
 
     EditText editPin;
@@ -24,8 +27,8 @@ public class UserAuthActivity extends AppCompatActivity {
         btnAuth = findViewById(R.id.btnAuth);
         textSeatInfo = findViewById(R.id.textSeatInfo);
 
-        // ✅ GlobalData에서 동적 정보 사용
-        textSeatInfo.setText("🔔 " + GlobalData.seatNumber + "번 자리 대여 인증");
+        // ✅ GlobalData에서 자리 정보 표시
+        textSeatInfo.setText("🔔 " + GlobalData.seatNumber + " 대여 인증");
 
         btnAuth.setOnClickListener(v -> {
             String input = editPin.getText().toString().trim();
@@ -35,9 +38,14 @@ public class UserAuthActivity extends AppCompatActivity {
                 return;
             }
 
-            // ✅ Firebase에서 받아온 동적 비밀번호와 비교
             if (input.equals(GlobalData.password)) {
                 Toast.makeText(this, "인증 성공!", Toast.LENGTH_SHORT).show();
+
+                // ✅ 인증 성공 시 서버에 open = true 전송
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("reservation");
+                ref.child("open").setValue(true);
+
+                // ✅ 다음 화면으로 이동
                 startActivity(new Intent(this, RentalCompleteActivity.class));
             } else {
                 Toast.makeText(this, "비밀번호가 틀렸습니다.", Toast.LENGTH_SHORT).show();
