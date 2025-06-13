@@ -17,7 +17,7 @@
 
         <!-- 앱 시작화면 -->
         <activity
-            android:name=".MovingToUserActivity"
+            android:name=".UserAuthActivity"
             android:exported="true"
             android:theme="@style/Theme.Temify">
             <intent-filter>
@@ -34,9 +34,9 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".StockActivity" />
         <activity android:name=".ReturnPromptActivity" />
-        <activity android:name=".UserAuthActivity" />
-        <activity android:name=".RentalCompleteActivity" />
         <activity android:name=".ReturnCompleteActivity" />
+        <activity android:name=".RentalCompleteActivity" />
+        <activity android:name=".MovingToUserActivity" />
 
         <meta-data
             android:name="com.robotemi.sdk.metadata.SKILL"

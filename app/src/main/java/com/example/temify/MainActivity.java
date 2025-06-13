@@ -6,6 +6,9 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class MainActivity extends AppCompatActivity {
 
     Button btnRent, btnReturn, btnStock, btnInitUpload;
@@ -14,6 +17,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // ✅ Temi는 현재 충전 중 상태라고 간주하고 charging=1 업로드
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("reservation");
+        ref.child("charging").setValue(1);
 
         btnRent = findViewById(R.id.btnRent);
         btnReturn = findViewById(R.id.btnReturn);

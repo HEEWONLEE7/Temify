@@ -28,6 +28,7 @@ public class FirebaseUploader {
         ref.child("start_time").setValue(now);
         ref.child("end_time").setValue(end);
         ref.child("password").setValue(GlobalData.password != null ? GlobalData.password : "1234");
-        ref.child("open").setValue(false);  // 초기에는 닫힘 상태
+        ref.child("open").setValue(false);       // 초기에는 닫힘 상태
+        ref.child("charging").setValue(1);       // ✅ Temi가 이동 시작 → 충전 중 아님
     }
 }

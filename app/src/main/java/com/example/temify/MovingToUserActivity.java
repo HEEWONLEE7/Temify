@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener;
 
@@ -27,9 +29,12 @@ public class MovingToUserActivity extends AppCompatActivity {
 
         textMoving = findViewById(R.id.textMoving);
         robot = Robot.getInstance();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("reservation");
 
-        // ✅ GlobalData에 좌석 정보 저장
         GlobalData.seatNumber = targetLocation;
+
+        // ✅ 화면이 뜨는 순간 → Temi가 이동 시작으로 간주 → 충전 아님
+        ref.child("charging").setValue(0);
 
         // ✅ Temi 이동 상태 리스너 등록
         robot.addOnGoToLocationStatusChangedListener(new OnGoToLocationStatusChangedListener() {
@@ -61,8 +66,9 @@ public class MovingToUserActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        // ✅ 화면이 뜨는 순간 → Temi가 이동 시작으로 간주 → 충전 아님
 
-        // ✅ Temi SDK 안정화 시간 확보: 1초 지연 후 위치 확인 및 이동
+
         new Handler().postDelayed(() -> {
             List<String> locations = robot.getLocations();
             Log.d("TemiDebug", "지연 후 Temi 위치 목록: " + locations);
@@ -73,11 +79,10 @@ public class MovingToUserActivity extends AppCompatActivity {
                 return;
             }
 
-            // 위치 존재할 경우 Temi 이동 명령
             textMoving.setText("🤖 Temi가 " + targetLocation + "으로 이동 중입니다...");
             robot.goTo(targetLocation);
 
-        }, 1000); // 1초 지연
+        }, 1000); // Temi SDK 초기화 시간 확보
     }
 
     private void moveToNextActivity() {
