@@ -6,8 +6,11 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,9 +22,32 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // ✅ Temi는 현재 충전 중 상태라고 간주하고 charging=1 업로드
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("reservation");
-        ref.child("charging").setValue(1);
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("callRequests");
 
+        // ✅ action 값이 1이면 MovingToUserActivity로 이동
+        ref.child("action").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    Long actionValue = snapshot.getValue(Long.class);
+                    if (actionValue != null && actionValue == 1) {
+                        // ✅ 액티비티 전환
+                        Intent intent = new Intent(MainActivity.this, MovingToUserActivity.class);
+                        startActivity(intent);
+
+                        // ✅ action 값을 0으로 초기화 (중복 실행 방지)
+                        ref.child("action").setValue(0);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // 오류 처리 가능 (예: 로그 출력)
+            }
+        });
+
+        // ✅ 버튼 연결
         btnRent = findViewById(R.id.btnRent);
         btnReturn = findViewById(R.id.btnReturn);
         btnStock = findViewById(R.id.btnStock);

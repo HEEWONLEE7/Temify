@@ -19,6 +19,9 @@ public class ReturnPromptActivity extends AppCompatActivity {
     Button btnReturn, btnExtend;
     TextView textUserInfo, textUsageTime;
 
+    private final DatabaseReference reservationRef = FirebaseDatabase.getInstance().getReference("reservation");
+    private final DatabaseReference callRequestsRef = FirebaseDatabase.getInstance().getReference("callRequests");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +32,6 @@ public class ReturnPromptActivity extends AppCompatActivity {
         textUserInfo = findViewById(R.id.textUserInfo);
         textUsageTime = findViewById(R.id.textUsageTime);
 
-        // ✅ Firebase에서 예약 정보 불러오기
         fetchReservationInfo();
 
         btnReturn.setOnClickListener(v -> {
@@ -44,34 +46,34 @@ public class ReturnPromptActivity extends AppCompatActivity {
     }
 
     private void fetchReservationInfo() {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("reservation");
-
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        // 🔄 두 경로를 병렬로 불러옴
+        callRequestsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    String seat = snapshot.child("seat").getValue(String.class);
-                    String battery = snapshot.child("battery").getValue(String.class);
-                    String start = snapshot.child("start_time").getValue(String.class);
-                    String end = snapshot.child("end_time").getValue(String.class);
+            public void onDataChange(DataSnapshot callSnapshot) {
+                String seat = callSnapshot.child("number").getValue(String.class);
+                String start = callSnapshot.child("time").getValue(String.class);
 
-                    // GlobalData에도 저장 (선택)
-                    GlobalData.seatNumber = seat;
-                    GlobalData.batteryNumber = battery;
-                    GlobalData.startTime = start;
-                    GlobalData.endTime = end;
+                reservationRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot resSnapshot) {
+                        String battery = resSnapshot.child("battery").getValue(String.class);
+                        String end = resSnapshot.child("end_time").getValue(String.class);
 
-                    // ✅ UI 표시
-                    textUserInfo.setText("📌 " + seat + "번 자리 - " + battery + "번 보조배터리");
-                    textUsageTime.setText("🕒 사용 시간: " + start + " ~ " + end);
-                } else {
-                    Toast.makeText(ReturnPromptActivity.this, "예약 정보가 없습니다.", Toast.LENGTH_SHORT).show();
-                }
+                        // ✅ UI 업데이트
+                        textUserInfo.setText("📌 " + seat + "번 자리 - " + battery + "번 보조배터리");
+                        textUsageTime.setText("🕒 사용 시간: " + start + " ~ " + end);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                        Toast.makeText(ReturnPromptActivity.this, "예약 정보 로딩 실패", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
             @Override
             public void onCancelled(DatabaseError error) {
-                Toast.makeText(ReturnPromptActivity.this, "데이터 불러오기 실패", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ReturnPromptActivity.this, "좌석 정보 로딩 실패", Toast.LENGTH_SHORT).show();
             }
         });
     }

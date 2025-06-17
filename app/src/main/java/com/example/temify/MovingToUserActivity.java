@@ -9,8 +9,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener;
 
@@ -19,8 +22,9 @@ import java.util.List;
 public class MovingToUserActivity extends AppCompatActivity {
 
     private Robot robot;
-    private String targetLocation = "5번 자리";  // Temi에 저장된 위치 이름
     private TextView textMoving;
+
+    private DatabaseReference callRequestsRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,49 +33,35 @@ public class MovingToUserActivity extends AppCompatActivity {
 
         textMoving = findViewById(R.id.textMoving);
         robot = Robot.getInstance();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("reservation");
+        callRequestsRef = FirebaseDatabase.getInstance().getReference("callRequests");
 
-        GlobalData.seatNumber = targetLocation;
-
-        // ✅ 화면이 뜨는 순간 → Temi가 이동 시작으로 간주 → 충전 아님
-        ref.child("charging").setValue(0);
-
-        // ✅ Temi 이동 상태 리스너 등록
-        robot.addOnGoToLocationStatusChangedListener(new OnGoToLocationStatusChangedListener() {
+        // ✅ callRequests/seat 값만 불러오기
+        callRequestsRef.child("number").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onGoToLocationStatusChanged(String location, String status, int id, String description) {
-                if (!location.equals(targetLocation)) return;
+            public void onDataChange(DataSnapshot numberSnapshot) {
+                String targetLocation = numberSnapshot.getValue(String.class);
 
-                runOnUiThread(() -> {
-                    switch (status.toLowerCase()) {
-                        case "complete":
-                            textMoving.setText("✅ Temi가 " + location + "에 도착했습니다!");
-                            moveToNextActivity();
-                            break;
-                        case "abort":
-                            Toast.makeText(MovingToUserActivity.this, "❌ Temi가 이동을 중단했습니다.", Toast.LENGTH_LONG).show();
-                            break;
-                        case "error":
-                            Toast.makeText(MovingToUserActivity.this, "⚠️ Temi 이동 중 오류 발생", Toast.LENGTH_LONG).show();
-                            break;
-                        default:
-                            Toast.makeText(MovingToUserActivity.this, "ℹ️ 현재 상태: " + status, Toast.LENGTH_SHORT).show();
-                            break;
-                    }
-                });
+                if (targetLocation == null || targetLocation.isEmpty()) {
+                    Toast.makeText(MovingToUserActivity.this, "❌ 좌석 정보가 없습니다.", Toast.LENGTH_LONG).show();
+                    finish();
+                    return;
+                }
+
+                startTemiMovement(targetLocation);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Toast.makeText(MovingToUserActivity.this, "❌ seat 정보 접근 실패", Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        // ✅ 화면이 뜨는 순간 → Temi가 이동 시작으로 간주 → 충전 아님
-
-
+    private void startTemiMovement(String targetLocation) {
         new Handler().postDelayed(() -> {
             List<String> locations = robot.getLocations();
-            Log.d("TemiDebug", "지연 후 Temi 위치 목록: " + locations);
+            Log.d("TemiDebug", "Temi 위치 목록: " + locations);
 
             if (!locations.contains(targetLocation)) {
                 Toast.makeText(this, "Temi에 '" + targetLocation + "' 위치가 없습니다.", Toast.LENGTH_LONG).show();
@@ -82,11 +72,37 @@ public class MovingToUserActivity extends AppCompatActivity {
             textMoving.setText("🤖 Temi가 " + targetLocation + "으로 이동 중입니다...");
             robot.goTo(targetLocation);
 
-        }, 1000); // Temi SDK 초기화 시간 확보
+            // ✅ 이동 상태 리스너 등록
+            robot.addOnGoToLocationStatusChangedListener(new OnGoToLocationStatusChangedListener() {
+                @Override
+                public void onGoToLocationStatusChanged(String location, String status, int id, String description) {
+                    if (!location.equals(targetLocation)) return;
+
+                    runOnUiThread(() -> {
+                        switch (status.toLowerCase()) {
+                            case "complete":
+                                textMoving.setText("✅ Temi가 " + location + "에 도착했습니다!");
+                                moveToNextActivity();
+                                break;
+                            case "abort":
+                                Toast.makeText(MovingToUserActivity.this, "❌ Temi가 이동을 중단했습니다.", Toast.LENGTH_LONG).show();
+                                break;
+                            case "error":
+                                Toast.makeText(MovingToUserActivity.this, "⚠️ Temi 이동 중 오류 발생", Toast.LENGTH_LONG).show();
+                                break;
+                            default:
+                                Toast.makeText(MovingToUserActivity.this, "ℹ️ 현재 상태: " + status, Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                    });
+                }
+            });
+
+        }, 1000); // Temi SDK 초기화 대기
     }
 
     private void moveToNextActivity() {
-        Intent intent = new Intent(MovingToUserActivity.this, UserAuthActivity.class);
+        Intent intent = new Intent(this, UserAuthActivity.class);
         startActivity(intent);
         finish();
     }

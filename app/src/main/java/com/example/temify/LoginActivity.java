@@ -31,11 +31,9 @@ public class LoginActivity extends AppCompatActivity {
             if (id.equals("admin") && pw.equals("1234")) {
                 Toast.makeText(this, "✅ 로그인 성공!", Toast.LENGTH_SHORT).show();
 
-                // ✅ GlobalData에 사용자 ID 저장
-                GlobalData.userId = id;
-
-                // 로그인 후 메인 화면 또는 관리자 화면 등으로 이동 가능
+                // ✅ 사용자 ID를 Intent로 MainActivity에 전달
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                intent.putExtra("userId", id); // 전달
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
 

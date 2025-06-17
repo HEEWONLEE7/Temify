@@ -6,8 +6,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.robotemi.sdk.Robot;
 
 import java.text.SimpleDateFormat;
@@ -20,54 +26,113 @@ public class ReturnCompleteActivity extends AppCompatActivity {
     TextView textComplete, textUserInfo, textUsageTime, textReturnTime;
     Button btnBackToMain;
     private Robot robot;
-    private final String returnStation = "충전 스테이션";  // Temi에 저장된 위치 이름
+    private final String fallbackStation = "홈베이스";
+    private String returnStation = fallbackStation;
+
+    private final DatabaseReference reservationRef = FirebaseDatabase.getInstance().getReference("reservation");
+    private final DatabaseReference callRequestsRef = FirebaseDatabase.getInstance().getReference("callRequests");
+    private final DatabaseReference flagsRef = FirebaseDatabase.getInstance().getReference("Flags");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        DatabaseReference resRef = FirebaseDatabase.getInstance().getReference("reservation");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_return_complete);
 
-        // XML 요소 연결
+        // UI 요소 초기화
         textComplete = findViewById(R.id.textComplete);
         textUserInfo = findViewById(R.id.textUserInfo);
         textUsageTime = findViewById(R.id.textUsageTime);
         textReturnTime = findViewById(R.id.textReturnTime);
         btnBackToMain = findViewById(R.id.btnBackToMain);
 
-        // Temi SDK 초기화
+        // Temi 초기화
         robot = Robot.getInstance();
 
-        // ✅ GlobalData에서 데이터 읽기
-        String seatNumber = GlobalData.seatNumber != null ? GlobalData.seatNumber : "5번 자리";
-        String batteryNumber = GlobalData.batteryNumber != null ? GlobalData.batteryNumber : "3번 보조배터리";
-        String startTime = GlobalData.startTime != null ? GlobalData.startTime : "14:00";
-        String endTime = GlobalData.endTime != null ? GlobalData.endTime : "15:30";
+        // ✅ 진입 시 상태 초기화
+        reservationRef.child("open").setValue(true);
+        reservationRef.child("rentalStatus").setValue(0);
 
-        // ✅ 현재 시간 = 반납 시간
+        // ✅ 현재 시간 → 반납 시간
         String returnTime = new SimpleDateFormat("HH:mm", Locale.KOREA).format(new Date());
-
-        // ✅ UI 출력
-        textComplete.setText("🎉 보조배터리가 반납되었습니다!");
-        textUserInfo.setText("🔋 " + batteryNumber + "번 보조배터리 반납 완료");
-        textUsageTime.setText("🕒 사용 시간: " + startTime + " ~ " + endTime);
         textReturnTime.setText("📅 반납 시간: " + returnTime);
 
-        // ✅ 버튼 클릭 시: 충전 스테이션으로 이동 + 메인화면 전환
-        btnBackToMain.setOnClickListener(v -> {
-            if (robot != null) {
-                List<String> locations = robot.getLocations();
-                if (locations.contains(returnStation)) {
-                    robot.goTo(returnStation);
-                    Toast.makeText(this, "Temi가 충전 스테이션으로 이동합니다!", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(this, "⚠️ '충전 스테이션' 위치가 Temi에 저장되어 있지 않습니다.", Toast.LENGTH_LONG).show();
-                }
+        // ✅ start 값을 내부에서 사용하기 위해 배열로 선언
+        final String[] startHolder = new String[1];
+
+        // ✅ callRequests에서 seat, time 받아오기
+        callRequestsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String seat = snapshot.child("seat").getValue(String.class);
+                String start = snapshot.child("time").getValue(String.class);
+
+                if (seat != null && !seat.isEmpty()) returnStation = seat;
+                startHolder[0] = (start != null) ? start : "??:??";
+
+                // ✅ reservation에서 battery, end_time 받아오기
+                reservationRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot resSnapshot) {
+                        String battery = resSnapshot.child("battery").getValue(String.class);
+                        String end = resSnapshot.child("end_time").getValue(String.class);
+
+                        if (battery == null) battery = "3";
+                        if (end == null) end = "??:??";
+
+                        // ✅ UI 업데이트
+                        textComplete.setText("🎉 보조배터리가 반납되었습니다!");
+                        textUserInfo.setText("🔋 " + battery + "번 보조배터리 반납 완료");
+                        textUsageTime.setText("🕒 사용 시간: " + startHolder[0] + " ~ " + end);
+
+                        resRef.child("rentalStatus").setValue(0);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(ReturnCompleteActivity.this, "예약 정보 로딩 실패", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
-            // 메인 화면으로 이동
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(ReturnCompleteActivity.this, "좌석 정보 로딩 실패", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // ✅ 버튼 클릭 시 Temi 이동 조건 검사
+        btnBackToMain.setOnClickListener(v -> {
+            reservationRef.child("open").setValue(false);
+
+            flagsRef.child("flag").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    String flag = snapshot.getValue(String.class);
+
+                    if ("end".equals(flag)) {
+                        if (robot != null && robot.getLocations().contains(returnStation)) {
+                            robot.goTo(returnStation);
+                            Toast.makeText(ReturnCompleteActivity.this, "Temi가 '" + returnStation + "'으로 이동합니다!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(ReturnCompleteActivity.this, "⚠️ Temi 위치가 등록되지 않았습니다: " + returnStation, Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        Toast.makeText(ReturnCompleteActivity.this, "⛔ 현재 Temi 이동 조건이 아닙니다. (Flags/flag: " + flag + ")", Toast.LENGTH_SHORT).show();
+                    }
+
+                    // ✅ 메인화면 이동
+                    Intent intent = new Intent(ReturnCompleteActivity.this, MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(ReturnCompleteActivity.this, "flag 정보 불러오기 실패", Toast.LENGTH_SHORT).show();
+                }
+            });
         });
     }
 }
