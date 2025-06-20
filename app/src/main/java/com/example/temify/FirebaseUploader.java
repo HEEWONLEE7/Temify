@@ -35,11 +35,11 @@ public class FirebaseUploader {
 
                         // 🔹 reservation 경로에 업로드
                         resRef.child("battery").setValue("3");
-                        resRef.child("start_time").setValue(start);
                         resRef.child("end_time").setValue(end);
                         resRef.child("password").setValue("1111");
                         resRef.child("open").setValue(false);
                         resRef.child("rentalStatus").setValue(0);
+                        resRef.child("move").setValue(true);
 
                     } catch (ParseException e) {
                         e.printStackTrace();

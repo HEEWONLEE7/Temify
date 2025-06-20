@@ -25,9 +25,13 @@ public class MovingToUserActivity extends AppCompatActivity {
     private TextView textMoving;
 
     private DatabaseReference callRequestsRef;
+    private final DatabaseReference reservationRef = FirebaseDatabase.getInstance().getReference("reservation");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        reservationRef.child("move").setValue(false);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_moving_to_user);
 

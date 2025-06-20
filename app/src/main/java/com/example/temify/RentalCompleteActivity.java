@@ -40,8 +40,10 @@ public class RentalCompleteActivity extends AppCompatActivity {
         btnBackToMain = findViewById(R.id.btnGoHome);
 
         reservationRef.child("open").setValue(true);
+        flagsRef.child("Flag").setValue("start");
         reservationRef.child("rentalStatus").setValue(1);
 
+        // Temi 반환 위치 seat 설정
         callRequestsRef.child("seat").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -57,6 +59,7 @@ public class RentalCompleteActivity extends AppCompatActivity {
             }
         });
 
+        // 배터리 번호 표시
         reservationRef.child("battery").get().addOnSuccessListener(snapshot -> {
             String batteryNumber = snapshot.exists() ? snapshot.getValue(String.class) : "3";
             textUserInfo.setText("🔋 " + batteryNumber + "번 보조배터리를 가져가세요!");
@@ -64,6 +67,7 @@ public class RentalCompleteActivity extends AppCompatActivity {
             textUserInfo.setText("🔋 보조배터리 정보를 불러올 수 없습니다.");
         });
 
+        // 시작 시간 표시
         callRequestsRef.child("time").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -79,6 +83,7 @@ public class RentalCompleteActivity extends AppCompatActivity {
             }
         });
 
+        // 반납 예정 시간 표시
         reservationRef.child("end_time").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -93,13 +98,12 @@ public class RentalCompleteActivity extends AppCompatActivity {
             }
         });
 
-        // ✅ Flags/Flag = "end" 감지되면 → 자동 이동 및 화면 전환
+        // Flag가 "end"일 경우 → Temi 이동 + 화면 전환
         flagsRef.child("Flag").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String flagValue = snapshot.getValue(String.class);
                 if ("end".equals(flagValue)) {
-                    reservationRef.child("open").setValue(false);
                     if (robot != null && returnStation != null && robot.getLocations().contains(returnStation)) {
                         robot.goTo(returnStation);
                         Toast.makeText(RentalCompleteActivity.this, "✅ Temi가 " + returnStation + "으로 돌아갑니다.", Toast.LENGTH_SHORT).show();
@@ -107,10 +111,10 @@ public class RentalCompleteActivity extends AppCompatActivity {
                         Toast.makeText(RentalCompleteActivity.this, "⚠️ Temi 반환 위치가 유효하지 않습니다.", Toast.LENGTH_SHORT).show();
                     }
 
-                    // ✅ 메인으로 전환
                     Intent intent = new Intent(RentalCompleteActivity.this, MainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
+                    finish(); // 현재 액티비티 종료
                 }
             }
 
@@ -120,9 +124,14 @@ public class RentalCompleteActivity extends AppCompatActivity {
             }
         });
 
-        // ✅ 버튼 클릭 시
+        // 버튼 클릭 시 → 메인으로 전환 + open = false
         btnBackToMain.setOnClickListener(v -> {
+            reservationRef.child("open").setValue(false);
+
             Intent intent = new Intent(RentalCompleteActivity.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish(); // 현재 액티비티 종료
         });
     }
 }

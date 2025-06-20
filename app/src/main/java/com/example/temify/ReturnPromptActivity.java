@@ -24,6 +24,9 @@ public class ReturnPromptActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        reservationRef.child("open").setValue(false);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_return_prompt);
 

@@ -34,6 +34,8 @@ public class UserAuthActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        reservationRef.child("move").setValue(true);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_auth);
 

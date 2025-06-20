@@ -46,7 +46,7 @@
         android:id="@+id/btnGoHome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="메인으로 돌아가기"
+        android:text="대여 완료"
         android:textSize="20sp"
         android:textColor="#FFFFFF"
         android:backgroundTint="#4CAF50"
