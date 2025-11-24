@@ -4,6 +4,8 @@ TEMIFY is a mobile assistant robot-based power bank rental service that allows u
 
 The service integrates a robot platform, mobile application, Arduino-based hardware, and a real-time server to provide a smooth and convenient rental experience.
 
+[![Temify Demo](https://www.youtube.com/watch?v=VbqeodgSBok)
+
 
 ## 📌 Project Summary
 
